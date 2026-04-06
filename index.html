@@ -2,35 +2,58 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>BY-TESTHUB | SYSTEM ACCESS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BY-TESTHUB | ACCESS KEY</title>
     <style>
-        body { background: #050505; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; padding: 40px; }
-        .box { border: 1px solid #00ff00; padding: 40px; border-radius: 10px; display: inline-block; background: #000; box-shadow: 0 0 20px #00ff00; min-width: 300px; }
-        .key-box { background: #111; padding: 20px; border-radius: 5px; margin: 20px 0; font-size: 35px; font-weight: bold; color: #fff; border: 1px solid #333; text-shadow: 0 0 10px #00ff00; }
-        .timer-box { color: #ff4444; font-size: 18px; margin-top: 10px; font-weight: bold; }
-        .status { color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+        /* 🎨 สไตล์หลัก (โมเดิร์น Dark Mode เหมือนในรูป) */
+        body { background-color: #121212; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .main-card { background-color: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 450px; }
+        .success-icon { border: 2px solid #ffffff; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 60px; height: 60px; margin-bottom: 25px; }
+        .success-icon span { font-size: 35px; color: #ffffff; }
+        .title { font-size: 28px; font-weight: 700; margin-bottom: 15px; }
+        .subtitle { font-size: 16px; color: #b0b0b0; margin-bottom: 30px; line-height: 1.5; }
+        .timer-highlight { font-weight: 600; color: #ffffff; }
+
+        /* 🔑 ช่องแสดงรหัสคีย์ (เหมือนในรูป) */
+        .key-input-container { background-color: #0d0d0d; border: 1px solid #333333; border-radius: 12px; padding: 18px 20px; font-size: 16px; font-family: 'Courier New', monospace; color: #ffffff; letter-spacing: 1px; word-break: break-all; text-align: left; position: relative; cursor: pointer; }
+        .key-input-container:hover { border-color: #555555; }
+        .copied-text { font-size: 12px; color: #4caf50; position: absolute; right: 20px; top: 18px; display: none; }
+
+        /* 📋 ปุ่มคัดลอก (เหมือนในรูป) */
+        .btn-copy { background-color: #ffffff; color: #000000; border: none; padding: 18px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
+        .btn-copy:hover { background-color: #e0e0e0; }
+
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1 style="font-size: 18px;">ACCESS KEY GENERATOR</h1>
-        <p class="status">Automatic Reset Every 12 Hours</p>
-        
-        <div id="displayKey" class="key-box">LOADING...</div>
-        
-        <div class="timer-box">
-            คีย์นี้จะหมดอายุในอีก: <span id="countdown">--:--:--</span>
+    <div class="main-card">
+        <div class="success-icon">
+            <span>&#10003;</span>
         </div>
         
-        <p style="color: #444; font-size: 12px; margin-top: 20px;">* เมื่อหมดเวลา คีย์จะเปลี่ยนใหม่ทันที *</p>
+        <div class="title">Successfully access key!</div>
+        
+        <div class="subtitle">
+            Please return to the service for access, you have <span id="hours-left" class="timer-highlight"></span> hours and <span id="minutes-left" class="timer-highlight"></span> minutes left.
+        </div>
+        
+        <div class="key-input-container" onclick="copyKey('key-display')">
+            <span id="key-display">LOADING...</span>
+            <span class="copied-text" id="copied-notice">Copied!</span>
+        </div>
+        
+        <button class="btn-copy" onclick="copyKey('key-display')">
+            <span>&#128203;</span> Copy
+        </button>
     </div>
 
     <script>
+        // [[ ระบบสุ่มคีย์ 8 หลักและนับถอยหลัง - รหัสเดิมของลูกพี่ ]]
         function updateSystem() {
             const now = new Date();
             const hours = now.getHours();
             
-            // 1. สร้างคีย์ (เหมือนเดิม)
+            // 1. สร้างคีย์สุ่ม (เหมือนเดิมเป๊ะ)
             const timeSlot = hours < 12 ? 0 : 1;
             const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + timeSlot;
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -41,14 +64,14 @@
                 let r = Math.abs(Math.sin(s) * 10000) % 1;
                 key += chars.charAt(Math.floor(r * chars.length));
             }
-            document.getElementById('displayKey').innerText = key;
+            document.getElementById('key-display').innerText = key;
 
-            // 2. ระบบนับถอยหลัง (Countdown)
+            // 2. ระบบนับถอยหลัง (12 ชั่วโมง)
             const nextUpdate = new Date();
             if (hours < 12) {
-                nextUpdate.setHours(12, 0, 0, 0); // เป้าหมายคือเที่ยงวัน
+                nextUpdate.setHours(12, 0, 0, 0); // รอบต่อไปคือเที่ยงวัน
             } else {
-                nextUpdate.setHours(24, 0, 0, 0); // เป้าหมายคือเที่ยงคืน
+                nextUpdate.setHours(24, 0, 0, 0); // รอบต่อไปคือเที่ยงคืน
             }
 
             function tick() {
@@ -62,16 +85,25 @@
 
                 const h = Math.floor(diff / (1000 * 60 * 60));
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
                 
-                document.getElementById('countdown').innerText = 
-                    String(h).padStart(2, '0') + ":" + 
-                    String(m).padStart(2, '0') + ":" + 
-                    String(s).padStart(2, '0');
+                // อัปเดตตัวเลขเวลาลงในประโยค (you have X hours and Y minutes left)
+                document.getElementById('hours-left').innerText = h;
+                document.getElementById('minutes-left').innerText = m;
             }
             
-            setInterval(tick, 1000);
+            setInterval(tick, 60000); // อัปเดตทุก 1 นาทีก็พอ เพื่อไม่ให้เปลืองทรัพยากร
             tick();
+        }
+
+        // ฟังก์ชันคัดลอกคีย์เมื่อกดปุ่มหรือช่องคีย์
+        function copyKey(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            if (text === "LOADING...") return;
+            navigator.clipboard.writeText(text).then(function() {
+                const notice = document.getElementById('copied-notice');
+                notice.style.display = 'block';
+                setTimeout(() => { notice.style.display = 'none'; }, 1500);
+            });
         }
 
         updateSystem();
