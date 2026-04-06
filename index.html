@@ -2,21 +2,45 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAPRAO HUB | Official</title>
+    <title>KAPRAO KEY SYSTEM</title>
     <style>
-        body { background-color: #0b0b0b; color: #f1c40f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding-top: 50px; }
-        .container { border: 2px solid #f1c40f; padding: 30px; border-radius: 20px; display: inline-block; box-shadow: 0 0 15px #f1c40f; }
-        h1 { text-shadow: 2px 2px #000; }
-        .btn { background-color: #f1c40f; color: black; padding: 15px 30px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 20px; }
-        .btn:hover { background-color: #fff; transform: scale(1.05); transition: 0.2s; }
+        body { background: #0d0d0d; color: #ffcc00; font-family: sans-serif; text-align: center; padding: 50px; }
+        .box { border: 2px solid #ffcc00; padding: 30px; border-radius: 20px; display: inline-block; background: #1a1a1a; box-shadow: 0 0 20px #ffcc00; }
+        .key-display { background: #000; padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 24px; font-weight: bold; border: 1px dashed #ffcc00; }
+        .btn { background: #ffcc00; color: #000; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔥 KAPRAO HUB 🔥</h1>
-        <p>ยินดีต้อนรับสู่แหล่งรวมสคริปต์ Block Spin ที่ดีที่สุด!</p>
-        <a href="#" class="btn" onclick="alert('คัดลอกสคริปต์แล้ว! (ตัวอย่าง)')">GET SCRIPT</a>
+    <div class="box">
+        <h1>🔑 ระบบรับคีย์ (24 ชั่วโมง)</h1>
+        <p>คีย์ของท่านคือ:</p>
+        <div id="keyDisplay" class="key-display">กดปุ่มเพื่อรับคีย์</div>
+        <button class="btn" onclick="generateKey()">รับคีย์ / ตรวจสอบคีย์</button>
+        <p id="timer" style="color: #888; font-size: 12px;"></p>
     </div>
+
+    <script>
+        function generateKey() {
+            const now = new Date().getTime();
+            const expireTime = 24 * 60 * 60 * 1000; // 24 ชั่วโมงในรูปแบบมิลลิวินาที
+            
+            let savedKey = localStorage.getItem('userKey');
+            let savedTime = localStorage.getItem('keyTime');
+
+            if (savedKey && savedTime && (now - savedTime < expireTime)) {
+                // ถ้ามีคีย์อยู่แล้วและยังไม่หมดอายุ ให้โชว์คีย์เดิม
+                document.getElementById('keyDisplay').innerText = savedKey;
+                let timeLeft = Math.ceil((expireTime - (now - savedTime)) / (1000 * 60 * 60));
+                document.getElementById('timer').innerText = "คีย์นี้จะหมดอายุในอีกประมาณ " + timeLeft + " ชั่วโมง";
+            } else {
+                // ถ้าไม่มีคีย์หรือหมดอายุ ให้สุ่มคีย์ใหม่
+                let newKey = "KAPRAO-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+                localStorage.setItem('userKey', newKey);
+                localStorage.setItem('keyTime', now);
+                document.getElementById('keyDisplay').innerText = newKey;
+                document.getElementById('timer').innerText = "คีย์ใหม่ถูกสร้างแล้ว! ใช้ได้ 24 ชม.";
+            }
+        }
+    </script>
 </body>
 </html>
