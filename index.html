@@ -2,41 +2,55 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>BY-TESTHUB | FREE KEY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BY-TESTHUB</title>
     <style>
-        body { background-color: #121212; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .main-card { background-color: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
-        .success-icon { border: 2px solid #4caf50; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 60px; height: 60px; margin-bottom: 25px; }
-        .success-icon span { font-size: 30px; color: #4caf50; }
-        .title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-        .subtitle { font-size: 14px; color: #b0b0b0; margin-bottom: 25px; }
-        .key-input-container { background-color: #0d0d0d; border: 1px solid #333; border-radius: 12px; padding: 18px; font-size: 20px; font-family: monospace; color: #ffffff; text-align: center; margin-bottom: 15px; }
-        .btn-copy { background-color: #ffffff; color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 20px; }
-        .buy-section { border-top: 1px solid #333; padding-top: 20px; }
-        .btn-go-shop { background-color: #ffd700; color: #000; text-decoration: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; display: block; transition: 0.3s; }
+        body { background-color: #121212; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .main-card { background-color: #1e1e1e; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 320px; border: 1px solid #333; }
+        .success-icon-main { border: 2px solid #ffffff; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 50px; height: 50px; margin-bottom: 20px; }
+        .title { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+        .subtitle { font-size: 13px; color: #b0b0b0; margin-bottom: 20px; }
+        .key-display { background-color: #0d0d0d; border: 1px solid #333; border-radius: 10px; padding: 15px; font-size: 16px; font-family: monospace; margin-bottom: 15px; }
+        .btn-copy { background-color: #ffffff; color: #000; border: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 15px; }
+        .btn-buy { background-color: #ffd700; color: #000; text-decoration: none; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: bold; display: block; }
+
+        /* 🖼️ สไตล์หน้าต่างเด้ง (Popup) เหมือนในรูป image_9c3385.png */
+        #popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100; }
+        .popup-card { background: #ffffff; color: #333; padding: 30px; border-radius: 15px; width: 260px; text-align: center; animation: zoomIn 0.3s; }
+        .popup-icon { width: 50px; height: 50px; border: 3px solid #4caf50; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-bottom: 15px; }
+        .popup-icon span { color: #4caf50; font-size: 30px; font-weight: bold; }
+        .popup-card h2 { margin: 0 0 20px 0; font-size: 18px; color: #333; }
+        .btn-ok { background: #6200ee; color: #fff; border: none; padding: 10px 40px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        
+        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
+
     <div class="main-card">
-        <div class="success-icon"><span>&#10003;</span></div>
-        <div class="title">Get Free Key!</div>
+        <div class="success-icon-main"><span>&#10003;</span></div>
+        <div class="title">Successfully whitelisted!</div>
         <div class="subtitle">เหลือเวลาอีก <span id="h"></span> ชม. <span id="m"></span> นาที</div>
         
-        <div class="key-input-container" id="key-display">LOADING...</div>
-        <button class="btn-copy" onclick="copyKey()">📋 Copy Key (12 Hours)</button>
+        <div class="key-display" id="key-text">LOADING...</div>
+        
+        <button class="btn-copy" onclick="showSuccess()">📋 Copy Key</button>
+        
+        <a href="https://by-testhub.github.io/GGHUB/" class="btn-buy">🛒 สั่งซื้อคีย์ถาวร (ตลอดชีพ)</a>
+    </div>
 
-        <div class="buy-section">
-            <p style="font-size: 12px; color: #ffd700;">เบื่อมั้ย? ต้องมารับคีย์ทุกวัน</p>
-            <a href="https://เว็บขายคีย์ใหม่ของลูกพี่.github.io" class="btn-go-shop">🛒 สั่งซื้อคีย์ถาวร (ตลอดชีพ)</a>
+    <div id="popup-overlay">
+        <div class="popup-card">
+            <div class="popup-icon"><span>&#10003;</span></div>
+            <h2>คัดลอกคีย์สำเร็จ!</h2>
+            <button class="btn-ok" onclick="confirmCopy()">OK</button>
         </div>
     </div>
 
     <script>
-        // ระบบสุ่มคีย์และนับถอยหลังเหมือนเดิม
         function updateKey() {
             const now = new Date();
-            const h = now.getHours();
-            const slot = h < 12 ? 0 : 1;
+            const slot = now.getHours() < 12 ? 0 : 1;
             const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + slot;
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             let key = "";
@@ -46,9 +60,10 @@
                 let r = Math.abs(Math.sin(s) * 10000) % 1;
                 key += chars.charAt(Math.floor(r * chars.length));
             }
-            document.getElementById('key-display').innerText = key;
+            document.getElementById('key-text').innerText = key;
+
             const next = new Date();
-            h < 12 ? next.setHours(12,0,0,0) : next.setHours(24,0,0,0);
+            now.getHours() < 12 ? next.setHours(12,0,0,0) : next.setHours(24,0,0,0);
             function tick() {
                 const diff = next - new Date();
                 if (diff <= 0) { location.reload(); return; }
@@ -57,10 +72,20 @@
             }
             setInterval(tick, 1000); tick();
         }
-        function copyKey() {
-            navigator.clipboard.writeText(document.getElementById('key-display').innerText);
-            alert("คัดลอกคีย์ฟรีเรียบร้อย!");
+
+        // 1. พอกดปุ่ม Copy ให้เด้งหน้าต่างขึ้นมา
+        function showSuccess() {
+            document.getElementById('popup-overlay').style.display = 'flex';
         }
+
+        // 2. พอกด OK ให้คัดลอกรหัสแล้วกลับหน้าหลัก (Refresh)
+        function confirmCopy() {
+            const text = document.getElementById('key-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                location.reload(); // กลับหน้าหลัก
+            });
+        }
+
         updateKey();
     </script>
 </body>
