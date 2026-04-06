@@ -2,60 +2,42 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BY-TESTHUB | ACCESS KEY</title>
+    <title>BY-TESTHUB | FREE KEY</title>
     <style>
-        /* 🎨 สไตล์หลัก (โมเดิร์น Dark Mode เหมือนในรูป) */
-        body { background-color: #121212; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .main-card { background-color: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 450px; }
-        .success-icon { border: 2px solid #ffffff; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 60px; height: 60px; margin-bottom: 25px; }
-        .success-icon span { font-size: 35px; color: #ffffff; }
-        .title { font-size: 28px; font-weight: 700; margin-bottom: 15px; }
-        .subtitle { font-size: 16px; color: #b0b0b0; margin-bottom: 30px; line-height: 1.5; }
-        .timer-highlight { font-weight: 600; color: #ffffff; }
-
-        /* 🔑 ช่องแสดงรหัสคีย์ (เหมือนในรูป) */
-        .key-input-container { background-color: #0d0d0d; border: 1px solid #333333; border-radius: 12px; padding: 18px 20px; font-size: 16px; font-family: 'Courier New', monospace; color: #ffffff; letter-spacing: 1px; word-break: break-all; text-align: left; position: relative; cursor: pointer; }
-        .key-input-container:hover { border-color: #555555; }
-        .copied-text { font-size: 12px; color: #4caf50; position: absolute; right: 20px; top: 18px; display: none; }
-
-        /* 📋 ปุ่มคัดลอก (เหมือนในรูป) */
-        .btn-copy { background-color: #ffffff; color: #000000; border: none; padding: 18px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.2s; }
-        .btn-copy:hover { background-color: #e0e0e0; }
-
+        body { background-color: #121212; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .main-card { background-color: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
+        .success-icon { border: 2px solid #4caf50; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 60px; height: 60px; margin-bottom: 25px; }
+        .success-icon span { font-size: 30px; color: #4caf50; }
+        .title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: #b0b0b0; margin-bottom: 25px; }
+        .key-input-container { background-color: #0d0d0d; border: 1px solid #333; border-radius: 12px; padding: 18px; font-size: 20px; font-family: monospace; color: #ffffff; text-align: center; margin-bottom: 15px; }
+        .btn-copy { background-color: #ffffff; color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 20px; }
+        .buy-section { border-top: 1px solid #333; padding-top: 20px; }
+        .btn-go-shop { background-color: #ffd700; color: #000; text-decoration: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; display: block; transition: 0.3s; }
     </style>
 </head>
 <body>
     <div class="main-card">
-        <div class="success-icon">
-            <span>&#10003;</span>
+        <div class="success-icon"><span>&#10003;</span></div>
+        <div class="title">Get Free Key!</div>
+        <div class="subtitle">เหลือเวลาอีก <span id="h"></span> ชม. <span id="m"></span> นาที</div>
+        
+        <div class="key-input-container" id="key-display">LOADING...</div>
+        <button class="btn-copy" onclick="copyKey()">📋 Copy Key (12 Hours)</button>
+
+        <div class="buy-section">
+            <p style="font-size: 12px; color: #ffd700;">เบื่อมั้ย? ต้องมารับคีย์ทุกวัน</p>
+            <a href="https://เว็บขายคีย์ใหม่ของลูกพี่.github.io" class="btn-go-shop">🛒 สั่งซื้อคีย์ถาวร (ตลอดชีพ)</a>
         </div>
-        
-        <div class="title">Successfully access key!</div>
-        
-        <div class="subtitle">
-            Please return to the service for access, you have <span id="hours-left" class="timer-highlight"></span> hours and <span id="minutes-left" class="timer-highlight"></span> minutes left.
-        </div>
-        
-        <div class="key-input-container" onclick="copyKey('key-display')">
-            <span id="key-display">LOADING...</span>
-            <span class="copied-text" id="copied-notice">Copied!</span>
-        </div>
-        
-        <button class="btn-copy" onclick="copyKey('key-display')">
-            <span>&#128203;</span> Copy
-        </button>
     </div>
 
     <script>
-        // [[ ระบบสุ่มคีย์ 8 หลักและนับถอยหลัง - รหัสเดิมของลูกพี่ ]]
-        function updateSystem() {
+        // ระบบสุ่มคีย์และนับถอยหลังเหมือนเดิม
+        function updateKey() {
             const now = new Date();
-            const hours = now.getHours();
-            
-            // 1. สร้างคีย์สุ่ม (เหมือนเดิมเป๊ะ)
-            const timeSlot = hours < 12 ? 0 : 1;
-            const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + timeSlot;
+            const h = now.getHours();
+            const slot = h < 12 ? 0 : 1;
+            const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + slot;
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             let key = "";
             let s = parseInt(seed);
@@ -65,48 +47,21 @@
                 key += chars.charAt(Math.floor(r * chars.length));
             }
             document.getElementById('key-display').innerText = key;
-
-            // 2. ระบบนับถอยหลัง (12 ชั่วโมง)
-            const nextUpdate = new Date();
-            if (hours < 12) {
-                nextUpdate.setHours(12, 0, 0, 0); // รอบต่อไปคือเที่ยงวัน
-            } else {
-                nextUpdate.setHours(24, 0, 0, 0); // รอบต่อไปคือเที่ยงคืน
-            }
-
+            const next = new Date();
+            h < 12 ? next.setHours(12,0,0,0) : next.setHours(24,0,0,0);
             function tick() {
-                const currentTime = new Date();
-                const diff = nextUpdate - currentTime;
-                
-                if (diff <= 0) {
-                    location.reload(); // เมื่อหมดเวลา ให้รีเฟรชหน้าเพื่อเอาคีย์ใหม่
-                    return;
-                }
-
-                const h = Math.floor(diff / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                
-                // อัปเดตตัวเลขเวลาลงในประโยค (you have X hours and Y minutes left)
-                document.getElementById('hours-left').innerText = h;
-                document.getElementById('minutes-left').innerText = m;
+                const diff = next - new Date();
+                if (diff <= 0) { location.reload(); return; }
+                document.getElementById('h').innerText = Math.floor(diff / 3600000);
+                document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
             }
-            
-            setInterval(tick, 60000); // อัปเดตทุก 1 นาทีก็พอ เพื่อไม่ให้เปลืองทรัพยากร
-            tick();
+            setInterval(tick, 1000); tick();
         }
-
-        // ฟังก์ชันคัดลอกคีย์เมื่อกดปุ่มหรือช่องคีย์
-        function copyKey(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            if (text === "LOADING...") return;
-            navigator.clipboard.writeText(text).then(function() {
-                const notice = document.getElementById('copied-notice');
-                notice.style.display = 'block';
-                setTimeout(() => { notice.style.display = 'none'; }, 1500);
-            });
+        function copyKey() {
+            navigator.clipboard.writeText(document.getElementById('key-display').innerText);
+            alert("คัดลอกคีย์ฟรีเรียบร้อย!");
         }
-
-        updateSystem();
+        updateKey();
     </script>
 </body>
 </html>
