@@ -2,45 +2,79 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>KAPRAO KEY SYSTEM</title>
+    <title>BY-TESTHUB | SYSTEM ACCESS</title>
     <style>
-        body { background: #0d0d0d; color: #ffcc00; font-family: sans-serif; text-align: center; padding: 50px; }
-        .box { border: 2px solid #ffcc00; padding: 30px; border-radius: 20px; display: inline-block; background: #1a1a1a; box-shadow: 0 0 20px #ffcc00; }
-        .key-display { background: #000; padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 24px; font-weight: bold; border: 1px dashed #ffcc00; }
-        .btn { background: #ffcc00; color: #000; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        body { background: #050505; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; padding: 40px; }
+        .box { border: 1px solid #00ff00; padding: 40px; border-radius: 10px; display: inline-block; background: #000; box-shadow: 0 0 20px #00ff00; min-width: 300px; }
+        .key-box { background: #111; padding: 20px; border-radius: 5px; margin: 20px 0; font-size: 35px; font-weight: bold; color: #fff; border: 1px solid #333; text-shadow: 0 0 10px #00ff00; }
+        .timer-box { color: #ff4444; font-size: 18px; margin-top: 10px; font-weight: bold; }
+        .status { color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
     <div class="box">
-        <h1>🔑 ระบบรับคีย์ (24 ชั่วโมง)</h1>
-        <p>คีย์ของท่านคือ:</p>
-        <div id="keyDisplay" class="key-display">กดปุ่มเพื่อรับคีย์</div>
-        <button class="btn" onclick="generateKey()">รับคีย์ / ตรวจสอบคีย์</button>
-        <p id="timer" style="color: #888; font-size: 12px;"></p>
+        <h1 style="font-size: 18px;">ACCESS KEY GENERATOR</h1>
+        <p class="status">Automatic Reset Every 12 Hours</p>
+        
+        <div id="displayKey" class="key-box">LOADING...</div>
+        
+        <div class="timer-box">
+            คีย์นี้จะหมดอายุในอีก: <span id="countdown">--:--:--</span>
+        </div>
+        
+        <p style="color: #444; font-size: 12px; margin-top: 20px;">* เมื่อหมดเวลา คีย์จะเปลี่ยนใหม่ทันที *</p>
     </div>
 
     <script>
-        function generateKey() {
-            const now = new Date().getTime();
-            const expireTime = 24 * 60 * 60 * 1000; // 24 ชั่วโมงในรูปแบบมิลลิวินาที
+        function updateSystem() {
+            const now = new Date();
+            const hours = now.getHours();
             
-            let savedKey = localStorage.getItem('userKey');
-            let savedTime = localStorage.getItem('keyTime');
-
-            if (savedKey && savedTime && (now - savedTime < expireTime)) {
-                // ถ้ามีคีย์อยู่แล้วและยังไม่หมดอายุ ให้โชว์คีย์เดิม
-                document.getElementById('keyDisplay').innerText = savedKey;
-                let timeLeft = Math.ceil((expireTime - (now - savedTime)) / (1000 * 60 * 60));
-                document.getElementById('timer').innerText = "คีย์นี้จะหมดอายุในอีกประมาณ " + timeLeft + " ชั่วโมง";
-            } else {
-                // ถ้าไม่มีคีย์หรือหมดอายุ ให้สุ่มคีย์ใหม่
-                let newKey = "KAPRAO-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-                localStorage.setItem('userKey', newKey);
-                localStorage.setItem('keyTime', now);
-                document.getElementById('keyDisplay').innerText = newKey;
-                document.getElementById('timer').innerText = "คีย์ใหม่ถูกสร้างแล้ว! ใช้ได้ 24 ชม.";
+            // 1. สร้างคีย์ (เหมือนเดิม)
+            const timeSlot = hours < 12 ? 0 : 1;
+            const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + timeSlot;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let key = "";
+            let s = parseInt(seed);
+            for (let i = 0; i < 8; i++) {
+                s += i;
+                let r = Math.abs(Math.sin(s) * 10000) % 1;
+                key += chars.charAt(Math.floor(r * chars.length));
             }
+            document.getElementById('displayKey').innerText = key;
+
+            // 2. ระบบนับถอยหลัง (Countdown)
+            const nextUpdate = new Date();
+            if (hours < 12) {
+                nextUpdate.setHours(12, 0, 0, 0); // เป้าหมายคือเที่ยงวัน
+            } else {
+                nextUpdate.setHours(24, 0, 0, 0); // เป้าหมายคือเที่ยงคืน
+            }
+
+            function tick() {
+                const currentTime = new Date();
+                const diff = nextUpdate - currentTime;
+                
+                if (diff <= 0) {
+                    location.reload(); // เมื่อหมดเวลา ให้รีเฟรชหน้าเพื่อเอาคีย์ใหม่
+                    return;
+                }
+
+                const h = Math.floor(diff / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('countdown').innerText = 
+                    String(h).padStart(2, '0') + ":" + 
+                    String(m).padStart(2, '0') + ":" + 
+                    String(s).padStart(2, '0');
+            }
+            
+            setInterval(tick, 1000);
+            tick();
         }
+
+        updateSystem();
     </script>
 </body>
 </html>
