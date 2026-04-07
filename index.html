@@ -3,95 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TESTHUB KEY</title>
+    <title>TESTHUB | GET KEY</title>
     <style>
+        /* ดีไซน์โทนดำ-เทา-ฟ้า แบบพรีเมียม */
+        body { 
+            background-color: #0f0f13; 
+            color: #ffffff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden; 
+        }
 
-        body { background-color: #121212; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .main-card { background-color: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
-        .success-icon { border: 2px solid #4caf50; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; width: 60px; height: 60px; margin-bottom: 25px; }
-        .success-icon span { font-size: 30px; color: #4caf50; }
-        .title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-        .subtitle { font-size: 14px; color: #b0b0b0; margin-bottom: 25px; }
-        .key-input-container { background-color: #0d0d0d; border: 1px solid #333; border-radius: 12px; padding: 18px; font-size: 20px; font-family: monospace; color: #ffffff; text-align: center; margin-bottom: 15px; }
-        .btn-copy { background-color: #ffffff; color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 20px; transition: 0.2s; }
-        .btn-copy:hover { background-color: #e0e0e0; }
-        .buy-section { border-top: 1px solid #333; padding-top: 20px; }
-        .btn-go-shop { background-color: #ffd700; color: #000; text-decoration: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; display: block; transition: 0.3s; }
-        .btn-go-shop:hover { transform: scale(1.02); }
+        .main-card { 
+            background-color: #16161e; 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+            text-align: center; 
+            width: 90%; 
+            max-width: 420px; 
+            border: 1px solid #2b2b37; 
+        }
 
-        #popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
-        .popup-card { background: #ffffff; color: #333; padding: 35px; border-radius: 20px; width: 280px; text-align: center; animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .popup-icon-box { width: 55px; height: 55px; border: 3px solid #4caf50; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        .popup-icon-box span { color: #4caf50; font-size: 32px; font-weight: bold; }
-        .popup-card h2 { margin: 0 0 25px 0; font-size: 20px; color: #333; font-weight: bold; }
-        .btn-ok { background: #6200ee; color: #fff; border: none; padding: 12px 50px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-ok:hover { background: #4b00d1; }
-        
-        @keyframes zoomIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .success-icon { 
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 2px solid #4caf50; 
+            border-radius: 50%; 
+            display: inline-flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 70px; 
+            height: 70px; 
+            margin-bottom: 25px; 
+        }
+
+        .success-icon span { font-size: 35px; color: #4caf50; }
+
+        .title { font-size: 26px; font-weight: bold; margin-bottom: 8px; letter-spacing: 1px; }
+
+        .subtitle { font-size: 14px; color: #8b8b9e; margin-bottom: 30px; }
+
+        .key-input-container { 
+            background-color: #09090c; 
+            border: 1px solid #333345; 
+            border-radius: 14px; 
+            padding: 22px; 
+            font-size: 22px; 
+            font-family: 'Courier New', Courier, monospace; 
+            color: #00d2ff; 
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            text-align: center; 
+            margin-bottom: 20px; 
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .btn-copy { 
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%); 
+            color: #000; 
+            border: none; 
+            padding: 16px; 
+            border-radius: 14px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-bottom: 25px; 
+            transition: 0.3s; 
+        }
+
+        .btn-copy:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
+
+        .btn-go-shop { 
+            background-color: rgba(255, 215, 0, 0.1); 
+            color: #ffd700; 
+            text-decoration: none; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            display: block; 
+            border: 1px solid #ffd700;
+            transition: 0.3s; 
+        }
+
+        .btn-go-shop:hover { background-color: #ffd700; color: #000; }
+
+        /* Popup Setup */
+        #popup-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 100; 
+        }
+
+        .popup-card { 
+            background: #ffffff; 
+            color: #1a1a1a; 
+            padding: 35px; 
+            border-radius: 24px; 
+            width: 300px; 
+            text-align: center; 
+            animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        }
+
+        .btn-ok { 
+            background: #007bff; 
+            color: #fff; 
+            border: none; 
+            padding: 12px 60px; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="main-card">
         <div class="success-icon"><span>&#10003;</span></div>
-        <div class="title">รับคีย์ฟรีสำเร็จ!</div>
-        <div class="subtitle">คีย์นี้เหลือเวลาอีก <span id="h"></span> ชม. <span id="m"></span> นาที</div>
+        <div class="title">รับคีย์สำเร็จ!</div>
+        <div class="subtitle">คีย์จะเปลี่ยนใหม่ในอีก <span id="h">--</span> ชม. <span id="m">--</span> นาที</div>
         
-        <div class="key-input-container" id="key-display">LOADING...</div>
+        <div class="key-input-container" id="key-display">GENERATING...</div>
         
-        <button class="btn-copy" onclick="showPopup()">คัดลอกคีย์</button>
+        <button class="btn-copy" onclick="copyToClipboard()">คัดลอกรหัสคีย์</button>
         
-            <a href="https://by-testhub.github.io/KeyTESTHUB/" class="btn-go-shop">ซื้อคีย์ถาวร (ปลดล็อคฟังก์ชันที่ล็อคไว้)</a>
+        <div class="buy-section">
+            <a href="https://by-testhub.github.io/KeyTESTHUB/" class="btn-go-shop">🛒 ซื้อคีย์ถาวร (No Ads)</a>
         </div>
     </div>
 
     <div id="popup-overlay">
         <div class="popup-card">
-            <div class="popup-icon-box"><span>&#10003;</span></div>
-            <h2>คัดลอกคีย์สำเร็จ!</h2>
-            <button class="btn-ok" onclick="actionCopy()">OK</button>
+            <div style="font-size: 50px; color: #4caf50; margin-bottom: 10px;">✔</div>
+            <h2 style="margin-bottom: 20px;">คัดลอกสำเร็จ!</h2>
+            <p style="color: #666; margin-bottom: 20px;">นำรหัสไปวางในสคริปต์ได้เลย</p>
+            <button class="btn-ok" onclick="closePopup()">ตกลง</button>
         </div>
     </div>
 
     <script>
-
         function updateKey() {
             const now = new Date();
             const h = now.getHours();
+            
+            // แบ่งช่วงเวลา 0 = เที่ยงคืน-เที่ยงวัน, 1 = เที่ยงวัน-เที่ยงคืน
             const slot = h < 12 ? 0 : 1;
+            
+            // สร้าง Seed สำหรับสุ่ม (ปี + เดือน(0-11) + วันที่ + ช่วงเวลา)
+            // ตัวอย่าง: 2026371
             const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + slot;
+            
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             let key = "TESTHUB-";
             let s = parseInt(seed);
+            
+            // ลูปสร้างรหัส 8 ตัว (สูตรเดียวกับในสคริปต์ Roblox)
             for (let i = 0; i < 8; i++) {
-                s += i;
-                let r = Math.abs(Math.sin(s) * 10000) % 1;
+                let currentS = s + i;
+                let r = Math.abs(Math.sin(currentS) * 10000) % 1;
                 key += chars.charAt(Math.floor(r * chars.length));
             }
+            
             document.getElementById('key-display').innerText = key;
 
-            const next = new Date();
-            h < 12 ? next.setHours(12,0,0,0) : next.setHours(24,0,0,0);
-            function tick() {
-                const diff = next - new Date();
-                if (diff <= 0) { location.reload(); return; }
-                document.getElementById('h').innerText = Math.floor(diff / 3600000);
-                document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
+            // ระบบนับเวลาถอยหลัง (Countdown)
+            const nextUpdate = new Date();
+            if (h < 12) {
+                nextUpdate.setHours(12, 0, 0, 0);
+            } else {
+                nextUpdate.setHours(24, 0, 0, 0);
             }
-            setInterval(tick, 1000); tick();
+
+            function tick() {
+                const diff = nextUpdate - new Date();
+                if (diff <= 0) {
+                    window.location.reload();
+                    return;
+                }
+                const hours = Math.floor(diff / 3600000);
+                const minutes = Math.floor((diff % 3600000) / 60000);
+                document.getElementById('h').innerText = hours;
+                document.getElementById('m').innerText = minutes;
+            }
+            
+            setInterval(tick, 1000);
+            tick();
         }
 
-        function showPopup() {
-            document.getElementById('popup-overlay').style.display = 'flex';
-        }
-
-        function actionCopy() {
+        function copyToClipboard() {
             const keyText = document.getElementById('key-display').innerText;
             navigator.clipboard.writeText(keyText).then(() => {
-                location.reload();
+                document.getElementById('popup-overlay').style.display = 'flex';
             });
         }
 
+        function closePopup() {
+            document.getElementById('popup-overlay').style.display = 'none';
+        }
+
+        // เริ่มทำงาน
         updateKey();
     </script>
 </body>
