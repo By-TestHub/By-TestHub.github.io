@@ -134,15 +134,15 @@
 
     <div class="main-card">
         <div class="success-icon"><span>&#10003;</span></div>
-        <div class="title">รับคีย์สำเร็จ!</div>
-        <div class="subtitle">คีย์จะเปลี่ยนใหม่ในอีก <span id="h">--</span> ชม. <span id="m">--</span> นาที</div>
+        <div class="title">รับคีย์ฟรีสำเร็จ!</div>
+        <div class="subtitle">คีย์นี้เหลือเวลาอีก <span id="h">--</span> ชม. <span id="m">--</span> นาที</div>
         
         <div class="key-input-container" id="key-display">GENERATING...</div>
         
-        <button class="btn-copy" onclick="copyToClipboard()">คัดลอกรหัสคีย์</button>
+        <button class="btn-copy" onclick="copyToClipboard()">คัดลอกคีย์</button>
         
         <div class="buy-section">
-            <a href="https://by-testhub.github.io/KeyTESTHUB/" class="btn-go-shop">🛒 ซื้อคีย์ถาวร (No Ads)</a>
+            <a href="https://by-testhub.github.io/KeyTESTHUB/" class="btn-go-shop">ซื้อคีย์ถาวร (ปลดล็อคฟังก์ชันที่ล็อคไว้)</a>
         </div>
     </div>
 
@@ -150,7 +150,6 @@
         <div class="popup-card">
             <div style="font-size: 50px; color: #4caf50; margin-bottom: 10px;">✔</div>
             <h2 style="margin-bottom: 20px;">คัดลอกสำเร็จ!</h2>
-            <p style="color: #666; margin-bottom: 20px;">นำรหัสไปวางในสคริปต์ได้เลย</p>
             <button class="btn-ok" onclick="closePopup()">ตกลง</button>
         </div>
     </div>
@@ -171,7 +170,6 @@
             let key = "TESTHUB-";
             let s = parseInt(seed);
             
-            // ลูปสร้างรหัส 8 ตัว (สูตรเดียวกับในสคริปต์ Roblox)
             for (let i = 0; i < 8; i++) {
                 let currentS = s + i;
                 let r = Math.abs(Math.sin(currentS) * 10000) % 1;
@@ -180,7 +178,6 @@
             
             document.getElementById('key-display').innerText = key;
 
-            // ระบบนับเวลาถอยหลัง (Countdown)
             const nextUpdate = new Date();
             if (h < 12) {
                 nextUpdate.setHours(12, 0, 0, 0);
