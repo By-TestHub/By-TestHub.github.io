@@ -149,7 +149,7 @@
     <div id="popup-overlay">
         <div class="popup-card">
             <div style="font-size: 50px; color: #4caf50; margin-bottom: 10px;">✔</div>
-            <h2 style="margin-bottom: 20px;">คัดลอกสำเร็จ!</h2>
+            <h2 style="margin-bottom: 20px;">คัดลอกคีย์สำเร็จ!</h2>
             <button class="btn-ok" onclick="closePopup()">ตกลง</button>
         </div>
     </div>
@@ -159,11 +159,8 @@
             const now = new Date();
             const h = now.getHours();
             
-            // แบ่งช่วงเวลา 0 = เที่ยงคืน-เที่ยงวัน, 1 = เที่ยงวัน-เที่ยงคืน
             const slot = h < 12 ? 0 : 1;
-            
-            // สร้าง Seed สำหรับสุ่ม (ปี + เดือน(0-11) + วันที่ + ช่วงเวลา)
-            // ตัวอย่าง: 2026371
+        
             const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + slot;
             
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
