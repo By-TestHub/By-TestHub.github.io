@@ -27,6 +27,8 @@
             width: 90%; 
             max-width: 420px; 
             border: 1px solid #2b2b37; 
+            /* ซ่อนการ์ดไว้ก่อนจนกว่าจะตรวจผ่าน */
+            display: none; 
         }
 
         .success-icon { 
@@ -132,7 +134,7 @@
 </head>
 <body>
 
-    <div class="main-card">
+    <div class="main-card" id="main-content">
         <div class="success-icon"><span>&#10003;</span></div>
         <div class="title">รับคีย์ฟรีสำเร็จ!</div>
         <div class="subtitle">คีย์นี้เหลือเวลาอีก <span id="h">--</span> ชม. <span id="m">--</span> นาที</div>
@@ -155,12 +157,39 @@
     </div>
 
     <script>
+        // ==========================================
+        // 🔒 ระบบด่านตรวจ (Check Referrer)
+        // ==========================================
+        
+        // 🔴 ใส่คำหรือลิงก์เว็บต้นทางที่ "อนุญาต" ให้ผ่านเข้ามาได้
+        // เช่น ถ้านายใช้ linkvertise ก็ใส่ "linkvertise.com"
+        const allowedWeb = "by-testhub.github.io"; 
+        
+        // 🔴 ถ้าคนแอบเข้ามาตรงๆ จะให้เด้งกลับไปที่ลิงก์ไหน
+        const kickUrl = "https://by-testhub.github.io/KeyTESTHUB/";
+
+        // เริ่มเช็คว่ามาจากลิงก์ที่อนุญาตหรือไม่
+        const currentReferrer = document.referrer;
+        
+        // ถ้าไม่มีข้อมูลที่มา (พิมพ์ลิงก์เข้าตรงๆ) หรือ ไม่ใช่ลิงก์ที่อนุญาต
+        if (!currentReferrer || !currentReferrer.includes(allowedWeb)) {
+            // เตะกลับไปหน้าแรกทันที
+            window.location.replace(kickUrl);
+        } else {
+            // ถ้าตรวจผ่าน ให้โชว์หน้าเว็บ (ลบ display: none ออก)
+            document.getElementById("main-content").style.display = "block";
+            // แล้วเริ่มรันระบบสุ่มคีย์
+            updateKey();
+        }
+
+        // ==========================================
+        // ระบบสุ่มคีย์และนับเวลาถอยหลัง (ของเดิมของนาย)
+        // ==========================================
         function updateKey() {
             const now = new Date();
             const h = now.getHours();
             
             const slot = h < 12 ? 0 : 1;
-        
             const seed = now.getFullYear().toString() + now.getMonth() + now.getDate() + slot;
             
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -208,9 +237,6 @@
         function closePopup() {
             document.getElementById('popup-overlay').style.display = 'none';
         }
-
-        // เริ่มทำงาน
-        updateKey();
     </script>
 </body>
 </html>
